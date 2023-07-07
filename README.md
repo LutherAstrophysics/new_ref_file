@@ -1,10 +1,13 @@
-Image [m23_7.0-0099.fit](./m23_7.0-0099.fit) is the image from 2012-07-16
-aligned combined image number 99.  This image was chosen as the new reference
-for a couple reasons:
-1. It had the most stars (out of all 2012 images) from ref_revised_71 when
-generated logfile combined using
-[m23](https://github.com/lutherastrophysics/m23) version `1.16.3`. 
-1. The LTPR for the night wasn't too bad bad i.e 0.012961.
-1. The night was new moon.
+Raw images numbered 271-280 from July 28, 2022 were used to generate aligned
+combined using darks from the night and masterflat from 2022-06-19. The program
+[create_align_combined.py](./create_align_combined.py) was used to create the
+aligned combined. The result is
+[m23_7.0_2022-06-19_0028.fit](./m23_7.0_2022-06-19_0028.fit). Running the [DAO
+finder](https://photutils.readthedocs.io/en/stable/api/photutils.detection.DAOStarFinder.html#photutils.detection.DAOStarFinder)
+algorithm on this aligned combined image using the program in
+[main.py](./main.py) we found 3127 stars that are kept in
+[m23_7.0_2022-06-19_0028_dao.txt](./m23_7.0_2022-06-19_0028_dao.txt).
 
-Note that the images were calibrated using masterflat from June 16 2012
+Note that we also tried using IRFA algorithm from the photutils library, but the
+DAOFind worked better for us results for DAOFind were similar to the result in
+our current reference file.
