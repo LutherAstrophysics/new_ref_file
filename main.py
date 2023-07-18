@@ -27,7 +27,7 @@ def main(img, daofind=False):
     mask[:, 0:12] = True
     mask[:, 1012:] = True
     mask[0:12, :] = True
-    mask[1012:,] = True
+    mask[1012:, ] = True
 
     no_of_sigmas_above_bg = 5
     fwhm = 3.0
@@ -61,9 +61,7 @@ def main(img, daofind=False):
     # align the image to our reference
     t = find_transform(getdata("reference/m23_3.5_071.fit"), data, detection_sigma=10, min_area=10)[0]
 
-    # stars = [(541.2, 475.65), (547.57, 493.95), (746.58, 459.64), (539.54, 426.1)]
     stars = t([(541.2, 475.65), (547.57, 493.95), (746.58, 459.64), (539.54, 426.1)])
-    # breakpoint()
 
     stars_x, stars_y = zip(*stars)
     plt.plot(stars_x, stars_y, "r.", markersize=4)
