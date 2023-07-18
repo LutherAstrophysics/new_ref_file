@@ -35,14 +35,28 @@ def main():
     new_stars_dict = {}
     for i in range(len(new_stars)):
         candidate = new_stars.iloc[i]
-        new_stars_dict[candidate["id"]] = {
-            "X": candidate["xcentroid"],
-            "Y": candidate["ycentroid"],
-            "Sigma": 0,
-            "FWHM": 0,
-            "Sky ADU": 0,
-            "Star ADU": 0,
-        }
+        # Only add this star if it's it's too close neighbor is not already there
+        cx, cy = candidate["xcentroid"], candidate["ycentroid"]
+        df_to_check = new_stars.iloc[:i]
+        if (
+            len(
+                df_to_check[
+                    (df_to_check["xcentroid"] > cx - 1)
+                    & (df_to_check["xcentroid"] < cx + 1)
+                    & (df_to_check["ycentroid"] > cy - 1)
+                    & (df_to_check["ycentroid"] < cy + 1)
+                ]
+            )
+            == 0
+        ):
+            new_stars_dict[candidate["id"]] = {
+                "X": cx,
+                "Y": cy,
+                "Sigma": 0,
+                "FWHM": 0,
+                "Sky ADU": 0,
+                "Star ADU": 0,
+            }
     df_new_stars_only = pd.DataFrame.from_dict(new_stars_dict, orient="index")
     df_merged = pd.concat([df_og, df_new_stars_only], ignore_index=True)
     with open("ref_with_new_stars.txt", "w") as fd:
@@ -57,8 +71,15 @@ Star Data Extractor Tool
     Threshold factor: High ="""
         )
         fd.write("\n")
-        df_merged.columns = [column_header.rjust(10, ' ') for column_header in df_merged.columns]
-        df_merged.to_csv(fd, index=False, sep="\t", float_format="%10.2f",)
+        df_merged.columns = [
+            column_header.rjust(10, " ") for column_header in df_merged.columns
+        ]
+        df_merged.to_csv(
+            fd,
+            index=False,
+            sep="\t",
+            float_format="%10.2f",
+        )
 
 
 if __name__ == "__main__":

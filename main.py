@@ -24,10 +24,10 @@ def main(img, daofind=False):
 
     # Mask out extreme edges
     mask = np.zeros(data.shape, dtype=bool)
-    mask[:, 0:12] = True
-    mask[:, 1012:] = True
-    mask[0:12, :] = True
-    mask[1012:, ] = True
+    mask[:, 0:13] = True
+    mask[:, 1011:] = True
+    mask[0:13, :] = True
+    mask[1011:, ] = True
 
     no_of_sigmas_above_bg = 5
     fwhm = 3.0
